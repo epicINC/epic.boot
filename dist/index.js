@@ -24,7 +24,7 @@ class Util {
 }
 class Bootstrap {
     static new(key, val, ...args) {
-        constructorMap.set(key, () => Reflect.construct(val, args.map(e => Bootstrap.has(e) ? Bootstrap.get(e) : e) || []));
+        constructorMap.set(key, () => Reflect.construct(val, args.map(e => Bootstrap.has(e) ? Bootstrap.get(e) : e) || []))
         return Bootstrap;
     }
     static add(key, val, ...args) {
@@ -44,19 +44,25 @@ class Bootstrap {
         return Bootstrap;
     }
     static get(key) {
+
         if (dataMap.has(key))
             return dataMap.get(key);
         if (!constructorMap.has(key))
             return undefined;
-        let result;
+				let result;
+				
         try {
-            result = constructorMap.get(key)();
+						result = constructorMap.get(key)();
+						
+						
         }
         catch (e) {
+					
             console.error(e);
             return undefined;
         }
-        dataMap.set(key, result);
+				dataMap.set(key, result);
+				
         return result;
     }
     static del(key) {
